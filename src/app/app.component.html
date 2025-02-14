@@ -1,9 +1,11 @@
 <section class="todoapp">
   <header>
+    <!--Agregar tareas-->
     <div class="container_header">
       <h2>Mis tareas</h2>
       <p>Todas tus tareas en un lugar</p>
-      <input class="tareas_aqui" placeholder="Escribe tus tareas aquí" type="text"/>
+      <input class="tareas_aqui" placeholder="Escribe tus tareas aquí" type="text" [(ngModel)]="newTask"
+      (keyup.enter)="addTask()"/>
     </div>
   </header>
 </section>
@@ -11,38 +13,27 @@
 <section class="container_tareas">
   <div class="todo_list">
     <ul>
-      <li class="completed">
-        <input type="checkbox">
-        <span>Tarea nueva</span>
-        <input type="button" value="X">
-      </li>
-      <li class="completed">
-        <input type="checkbox">
-        <span>Prueba</span>
-        <input type="button" value="X">
-      </li>
-      <li>
-        <input type="checkbox">
-        <span>Test</span>
-        <input type="button" value="X">
+      <li *ngFor="let task of getFilteredTasks(); let i = index">
+        <input type="checkbox" [(ngModel)]="task.completed">
+        <label [ngClass]="{ 'completed': task.completed }">{{ task.text }}</label>
+        <button (click)="removeTask(i)">X</button>
       </li>
     </ul>
   </div>
   <div class="todo_footer">
-    <span>3 items</span>
+    <span>{{ tasks.length }} items</span>
     <div class="filter">
-      <button>Todas</button>
-      <button>Pendientes</button>
-      <button>Completadas</button>
+      <button [class.active]="filter === 'all'" (click)="setFilter('all')">Todas</button>
+      <button [class.active]="filter === 'active'" (click)="setFilter('active')">Pendientes</button>
+      <button [class.active]="filter === 'completed'" (click)="setFilter('completed')">Completadas</button>
     </div>
-    <button class="clear">Limpiar completadas</button>
+    <button class="clear" (click)="clearCompleted()">Limpiar completadas</button>
   </div>
 </section>
 
 
 
-  
-    
-    
 
-    
+
+
+
